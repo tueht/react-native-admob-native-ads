@@ -2,9 +2,6 @@ import { useCallback, useEffect, useRef } from 'react';
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
 
-const { RNGADInterstitialManager } = NativeModules;
-const eventEmitter = new NativeEventEmitter(RNGADInterstitialManager);
-
 export const ADS_PLACEMENT = {
 	HOME: 1,
 	DETAILS: 2,
@@ -15,15 +12,14 @@ const TIME_BETWEEN_ADS = 80000;
 
 const useInterstitialAdLoader = (
 	placementId,
-	adUnitId = "ca-app-pub-3940256099942544/4411468910",
+	adUnitId,
 	autoLoad = true,
 	options = {},
 ) => {
-
 	const callbackRef = useRef();
 
 	const loadAd = useCallback(() => {
-		return RNGADInterstitialManager.interstitialLoad(
+		return NativeModules.RNGADInterstitialManager.interstitialLoad(
 			placementId,
 			adUnitId,
 			options,
@@ -45,6 +41,7 @@ const useInterstitialAdLoader = (
 				loadAd();
 			}
 		};
+		const eventEmitter = new NativeEventEmitter(NativeModules.RNGADInterstitialManager);
 		const subscription = eventEmitter.addListener(
 			'admob_interstitial_event',
 			onAdsEvent,
@@ -66,7 +63,7 @@ const useInterstitialAdLoader = (
 				!lastShownTime ||
 					lastShownTime < Date.now() - TIME_BETWEEN_ADS
 			) {
-				RNGADInterstitialManager.interstitialShow(placementId, {})
+				NativeModules.RNGADInterstitialManager.interstitialShow(placementId, {})
 					.then(() => {
 						callbackRef.current = callbackAfterClosed;
 						lastShownTime = Date.now();
@@ -74,14 +71,14 @@ const useInterstitialAdLoader = (
 					.catch(e => {
 						callbackAfterClosed && callbackAfterClosed();
 					});
-			} else {
+      } else {
 				callbackAfterClosed && callbackAfterClosed();
 			}
 		},
 		[placementId, autoLoad],
 	);
 
-	return showAd;
+	return [showAd, loadAd];
 };
 
 export default useInterstitialAdLoader;

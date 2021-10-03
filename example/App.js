@@ -1,18 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Platform, SafeAreaView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
-import {AdManager} from 'react-native-admob-native-ads';
+import {Image, Platform, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import {AdManager, useInterstitialAdLoader} from 'react-native-admob-native-ads';
 import {requestTrackingPermission} from 'react-native-tracking-transparency';
 import {AdView} from './src/AdView';
 import List from './src/List';
 import {routes} from './src/utils';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import useInterstitialAdLoader from './src/useInterstitialAdLoader'
+// import useInterstitialAdLoader from './src/useInterstitialAdLoader'
 
+const TEST_AD_ID = Platform.select({
+  ios: 'ca-app-pub-3940256099942544/4411468910',
+  android: "ca-app-pub-3940256099942544/1033173712"
+});
 
 const App = () => {
   const [currentRoute, setCurrentRoute] = useState(null);
   const [loading, setLoading] = useState(true);
-  const showInterstitial = useInterstitialAdLoader(1)
+  const [showInterstitial] = useInterstitialAdLoader(1, TEST_AD_ID, true)
 
   useEffect(() => {
     const init = async () => {
