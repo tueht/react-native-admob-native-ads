@@ -251,7 +251,7 @@ PODS:
     - React-jsi (= 0.64.2)
     - React-perflogger (= 0.64.2)
   - React-jsinspector (0.64.2)
-  - react-native-admob-native-ads (0.4.1):
+  - react-native-admob-native-ads (0.5.0):
     - React-Core
   - react-native-tracking-transparency (0.1.1):
     - React
@@ -343,7 +343,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
-  - react-native-admob-native-ads (from `../node_modules/react-native-admob-native-ads`)
+  - react-native-admob-native-ads (from `../..`)
   - react-native-tracking-transparency (from `../node_modules/react-native-tracking-transparency`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -405,7 +405,7 @@ EXTERNAL SOURCES:
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-admob-native-ads:
-    :path: "../node_modules/react-native-admob-native-ads"
+    :path: "../.."
   react-native-tracking-transparency:
     :path: "../node_modules/react-native-tracking-transparency"
   React-perflogger:
@@ -442,7 +442,7 @@ SPEC CHECKSUMS:
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBAudienceNetwork: 9a5f277d6ed36a46354a045c46a4858b47407a72
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
-  FBReactNativeSpec: 6ac2a7ef29f2a3415a0930a4a77713c31c29c15b
+  FBReactNativeSpec: 08b5310b94cb8c820e86617f26ff7fe900c596c2
   FBSDKCoreKit_Basics: 06780a4a12e16596bde8406add02c6aa1bf38616
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Google-Mobile-Ads-SDK: e242f463fdb8564ac3f11847a30215a0e042c934
@@ -463,7 +463,7 @@ SPEC CHECKSUMS:
   React-jsi: 67747b9722f6dab2ffe15b011bcf6b3f2c3f1427
   React-jsiexecutor: 80c46bd381fd06e418e0d4f53672dc1d1945c4c3
   React-jsinspector: cc614ec18a9ca96fd275100c16d74d62ee11f0ae
-  react-native-admob-native-ads: 5f4e1557d72bf63a9c56ab2daf3c5f8a77388124
+  react-native-admob-native-ads: 408060ec533d09c78b78c4dbe897a340ab697b1c
   react-native-tracking-transparency: b2029ff756f1128b1f2c7c7c7f3003bc3c950f9f
   React-perflogger: 25373e382fed75ce768a443822f07098a15ab737
   React-RCTActionSheet: af7796ba49ffe4ca92e7277a5d992d37203f7da5
@@ -482,4 +482,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c197d577b6c16658d1113b1da4e8a979ac5e9fb8
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

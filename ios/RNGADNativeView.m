@@ -234,6 +234,7 @@ BOOL *nonPersonalizedAds;
             UIView *headlineView = viewRegistry[headline];
         
             if (headlineView != nil) {
+                [headlineView setUserInteractionEnabled:NO];
                 [self setHeadlineView:headlineView];
                 if (self.nativeAd != nil) {
                     [self reloadAdInView:self.nativeAd isMedia:NO];
@@ -254,6 +255,7 @@ BOOL *nonPersonalizedAds;
             
             UIImageView *iconView = (UIImageView *) viewRegistry[icon];
             if (iconView != nil) {
+                [iconView setUserInteractionEnabled:NO];
                 [self setIconView:iconView];
                 if (self.nativeAd != nil) {
                     [self reloadAdInView:self.nativeAd isMedia:NO];
@@ -297,6 +299,7 @@ BOOL *nonPersonalizedAds;
             
             if (rnMediaView != nil) {
                 [self setMediaView:(GADMediaView *) rnMediaView.subviews.firstObject];
+                [rnMediaView setUserInteractionEnabled:NO];
                 if (self.nativeAd != nil) {
                     [self.mediaView setMediaContent:self.nativeAd.mediaContent];
                     [self reloadAdInView:self.nativeAd isMedia:YES];
@@ -321,6 +324,7 @@ BOOL *nonPersonalizedAds;
             
             UIView *taglineView = viewRegistry[tagline];
             if (taglineView != nil) {
+                [taglineView setUserInteractionEnabled:NO];
                 [self setPriceView:taglineView];
                 if (self.nativeAd != nil) {
                     [self reloadAdInView:self.nativeAd isMedia:NO];
@@ -343,6 +347,7 @@ BOOL *nonPersonalizedAds;
             
             UIView *advertiserView = viewRegistry[advertiser];
             if (advertiserView != nil) {
+                [advertiserView setUserInteractionEnabled:NO];
                 [self setAdvertiserView:advertiserView];
                 if (self.nativeAd != nil) {
                     [self reloadAdInView:self.nativeAd isMedia:NO];
@@ -364,6 +369,7 @@ BOOL *nonPersonalizedAds;
             
             UIView *priceView = viewRegistry[price];
             if (priceView != nil) {
+                [priceView setUserInteractionEnabled:NO];
                 [self setPriceView:priceView];
                 if (self.nativeAd != nil) {
                     [self reloadAdInView:self.nativeAd isMedia:NO];
@@ -386,6 +392,7 @@ BOOL *nonPersonalizedAds;
             
             UIView *storeView = viewRegistry[store];
             if (storeView != nil) {
+                [storeView setUserInteractionEnabled:NO];
                 [self setStoreView:storeView];
                 if (self.nativeAd != nil) {
                     [self reloadAdInView:self.nativeAd isMedia:NO];
@@ -407,6 +414,7 @@ BOOL *nonPersonalizedAds;
             
             UIView *starratingView = viewRegistry[starrating];
             if (starratingView != nil) {
+                [starratingView setUserInteractionEnabled:NO];
                 [self setStarRatingView:starratingView];
                 if (self.nativeAd != nil) {
                     
@@ -428,6 +436,7 @@ BOOL *nonPersonalizedAds;
             
             UIView *cAv = viewRegistry[callToAction];
             if (cAv != nil){
+                [cAv setUserInteractionEnabled:NO];
                 [self setCallToActionView:cAv];
                 if (self.nativeAd != nil) {
                     [self reloadAdInView:self.nativeAd isMedia:NO];

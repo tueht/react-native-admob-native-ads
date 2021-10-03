@@ -6,8 +6,15 @@
 GADMediaView *cMediaView;
 GADVideoController *vc;
 
++ (CGRect) sanityFrame:(CGRect) frame {
+    if (frame.size.width < 120 || frame.size.height < 120) {
+        return CGRectMake(frame.origin.x, frame.origin.y, 120, 120);
+    }
+    return frame;
+}
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)inFrame {
+  CGRect frame = [RNGADMediaView sanityFrame:inFrame];
   if ((self = [super initWithFrame:frame])) {
       cMediaView = [[GADMediaView alloc] init];
       [self addSubview:cMediaView];

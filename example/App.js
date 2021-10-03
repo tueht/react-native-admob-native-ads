@@ -6,9 +6,13 @@ import {AdView} from './src/AdView';
 import List from './src/List';
 import {routes} from './src/utils';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import useInterstitialAdLoader from './src/useInterstitialAdLoader'
+
+
 const App = () => {
   const [currentRoute, setCurrentRoute] = useState(null);
   const [loading, setLoading] = useState(true);
+  const showInterstitial = useInterstitialAdLoader(1)
 
   useEffect(() => {
     const init = async () => {
@@ -110,6 +114,26 @@ const App = () => {
                 color: 'white',
               }}>
               Simple Banner Ad
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => showInterstitial()}
+            activeOpacity={0.8}
+            style={{
+              backgroundColor: 'orange',
+              width: '90%',
+              alignItems: 'center',
+              height: 50,
+              justifyContent: 'center',
+              borderRadius: 5,
+              marginBottom: 5,
+            }}>
+            <Text
+              style={{
+                color: 'white',
+              }}>
+              Show Interstitial
             </Text>
           </TouchableOpacity>
 
