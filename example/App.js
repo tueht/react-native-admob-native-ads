@@ -1,22 +1,34 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Platform, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
-import {AdManager, useInterstitialAdLoader} from 'react-native-admob-native-ads';
+import {
+  Image,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  AdManager,
+  useInterstitialAdLoader,
+} from 'react-native-admob-native-ads';
 import {requestTrackingPermission} from 'react-native-tracking-transparency';
 import {AdView} from './src/AdView';
 import List from './src/List';
 import {routes} from './src/utils';
-import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import useInterstitialAdLoader from './src/useInterstitialAdLoader'
 
 const TEST_AD_ID = Platform.select({
   ios: 'ca-app-pub-3940256099942544/4411468910',
-  android: "ca-app-pub-3940256099942544/1033173712"
+  android: 'ca-app-pub-3940256099942544/1033173712',
 });
 
 const App = () => {
   const [currentRoute, setCurrentRoute] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showInterstitial] = useInterstitialAdLoader(1, TEST_AD_ID, true)
+  // const showInterstitial = () => {};
 
   useEffect(() => {
     const init = async () => {
@@ -42,9 +54,13 @@ const App = () => {
       style={{
         height: '100%',
         width: '100%',
-        paddingTop:Platform.OS === "android" ? StatusBar.currentHeight : 0
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       }}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
       <View
         style={{
           flexDirection: 'row',
@@ -52,7 +68,7 @@ const App = () => {
           height: 50,
           paddingHorizontal: 12,
           marginBottom: 10,
-          width:"100%",
+          width: '100%',
         }}>
         {currentRoute && (
           <TouchableOpacity
@@ -203,9 +219,11 @@ const App = () => {
         </View>
       )}
 
-      {currentRoute?.type === 'banner' && <>
-      <AdView type="image" media={false} />
-      </>}
+      {currentRoute?.type === 'banner' && (
+        <>
+          <AdView type="image" media={false} />
+        </>
+      )}
 
       {currentRoute?.type === 'image' && (
         <View
