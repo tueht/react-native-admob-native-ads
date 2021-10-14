@@ -12,7 +12,6 @@ import AdBadge from "./src/AdBadge";
 import NativeAdView from './src';
 import {AdOptions} from "./src/utils"
 import AdManager from "./src/AdManager"
-import useInterstitialAdLoader from './src/hooks/useInterstitialAdLoader'
 
 export default NativeAdView;
 
@@ -29,8 +28,7 @@ export {
   PriceView,
   AdBadge,
   AdOptions,
-  AdManager,
-  useInterstitialAdLoader
+  AdManager
 }
 
 
