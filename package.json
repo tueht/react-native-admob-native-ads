@@ -48,7 +48,7 @@
     "admob-native-advanced-ads"
   ],
   "peerDependencies": {
-    "react-native": ">=0.69.0"
+    "react-native": ">=0.64.2"
   },
   "private": false,
   "devDependencies": {
