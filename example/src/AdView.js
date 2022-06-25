@@ -1,5 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, DeviceEventEmitter, Platform, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  DeviceEventEmitter,
+  Platform,
+  Text,
+  View,
+} from 'react-native';
 import NativeAdView, {
   AdvertiserView,
   CallToActionView,
@@ -150,19 +156,20 @@ export const AdView = React.memo(({index, media, type, loadOnMount = true}) => {
       style={{
         width: '98%',
         alignSelf: 'center',
-        backgroundColor:"transparent"
+        backgroundColor: 'transparent',
       }}
       videoOptions={{
-        customControlsRequested:true,
+        customControlsRequested: true,
       }}
-       // adUnitID={type === 'image' ? adUnitIDs.image : adUnitIDs.video} // REPLACE WITH NATIVE_AD_VIDEO_ID for video ads.
+      // adUnitID={type === 'image' ? adUnitIDs.image : adUnitIDs.video} // REPLACE WITH NATIVE_AD_VIDEO_ID for video ads.
       repository={type === 'image' ? 'imageAd' : 'videoAd'}
-        >
+    >
       <View
         style={{
           width: '100%',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <View
           style={{
             width: '100%',
@@ -173,7 +180,8 @@ export const AdView = React.memo(({index, media, type, loadOnMount = true}) => {
             alignItems: 'center',
             opacity: !loading && !error && loaded ? 0 : 1,
             zIndex: !loading && !error && loaded ? 0 : 10,
-          }}>
+          }}
+        >
           {loading && <ActivityIndicator size={28} color="#a9a9a9" />}
           {error && <Text style={{color: '#a9a9a9'}}>:-(</Text>}
         </View>
@@ -187,32 +195,34 @@ export const AdView = React.memo(({index, media, type, loadOnMount = true}) => {
             alignItems: 'center',
             paddingHorizontal: 10,
             opacity: loading || error || !loaded ? 0 : 1,
-          }}>
-          <IconView
+          }}
+        >
+          {/* <IconView
             style={{
               width: 60,
               height: 60,
             }}
-          />
+          /> */}
           <View
             style={{
               width: '60%',
               maxWidth: '60%',
               paddingHorizontal: 6,
-            }}>
-            <HeadlineView
+            }}
+          >
+            {/* <HeadlineView
               hello="abc"
               style={{
                 fontWeight: 'bold',
                 fontSize: 13,
               }}
-            />
-            <TaglineView
+            /> */}
+            {/* <TaglineView
               numberOfLines={2}
               style={{
                 fontSize: 11,
               }}
-            />
+            /> */}
             <AdvertiserView
               style={{
                 fontSize: 10,
@@ -224,7 +234,8 @@ export const AdView = React.memo(({index, media, type, loadOnMount = true}) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-              }}>
+              }}
+            >
               <StoreView
                 style={{
                   fontSize: 12,
@@ -243,19 +254,23 @@ export const AdView = React.memo(({index, media, type, loadOnMount = true}) => {
           </View>
 
           <CallToActionView
-            style={[{
-              minHeight: 45,
-              paddingHorizontal: 12,
-              justifyContent: 'center',
-              alignItems: 'center',
-              elevation: 10,
-              maxWidth: 100,
-              width: 80,
-            },Platform.OS === "ios" ? {
-            backgroundColor: '#00ff00',
-            borderRadius: 5,
-          } : {}]}
-
+            style={[
+              {
+                minHeight: 45,
+                paddingHorizontal: 12,
+                justifyContent: 'center',
+                alignItems: 'center',
+                elevation: 10,
+                maxWidth: 100,
+                width: 80,
+              },
+              Platform.OS === 'ios'
+                ? {
+                    backgroundColor: '#00ff00',
+                    borderRadius: 5,
+                  }
+                : {},
+            ]}
             buttonAndroidStyle={{
               backgroundColor: '#00ff00',
               borderRadius: 5,

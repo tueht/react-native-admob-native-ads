@@ -166,10 +166,10 @@ RCT_EXPORT_MODULE();
         request.keywords = adRequestOptions[@"keywords"];
     }
     
-    if (adRequestOptions[@"location"]) {
-        NSArray<NSNumber *> *latLong = adRequestOptions[@"location"];
-        [request setLocationWithLatitude:[latLong[0] doubleValue] longitude:[latLong[1] doubleValue] accuracy:[adRequestOptions[@"locationAccuracy"] doubleValue]];
-    }
+    // if (adRequestOptions[@"location"]) {
+    //     NSArray<NSNumber *> *latLong = adRequestOptions[@"location"];
+    //     [request setLocationWithLatitude:[latLong[0] doubleValue] longitude:[latLong[1] doubleValue] accuracy:[adRequestOptions[@"locationAccuracy"] doubleValue]];
+    // }
 
     if (adRequestOptions[@"contentUrl"]) {
         request.contentURL = adRequestOptions[@"contentUrl"];

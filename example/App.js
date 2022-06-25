@@ -8,10 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  AdManager,
-  useInterstitialAdLoader,
-} from 'react-native-admob-native-ads';
+import {AdManager, useInterstitialAdLoader} from 'react-native-admob-native-ads';
 import {requestTrackingPermission} from 'react-native-tracking-transparency';
 import {AdView} from './src/AdView';
 import List from './src/List';
@@ -55,7 +52,8 @@ const App = () => {
         height: '100%',
         width: '100%',
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-      }}>
+      }}
+    >
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -69,7 +67,8 @@ const App = () => {
           paddingHorizontal: 12,
           marginBottom: 10,
           width: '100%',
-        }}>
+        }}
+      >
         {currentRoute && (
           <TouchableOpacity
             onPress={() => setCurrentRoute(null)}
@@ -80,7 +79,8 @@ const App = () => {
               height: 50,
               justifyContent: 'center',
               borderRadius: 100,
-            }}>
+            }}
+          >
             <Icon name="arrow-left" size={28} />
           </TouchableOpacity>
         )}
@@ -90,12 +90,14 @@ const App = () => {
         <View
           style={{
             alignItems: 'center',
-          }}>
+          }}
+        >
           <View
             style={{
               alignItems: 'center',
               marginBottom: 50,
-            }}>
+            }}
+          >
             <Image
               source={require('./images.jpg')}
               style={{
@@ -112,7 +114,8 @@ const App = () => {
                 fontSize: 18,
                 letterSpacing: 1,
                 textAlign: 'center',
-              }}>
+              }}
+            >
               Admob Native Advanced Ads {'\n'} for React Native
             </Text>
           </View>
@@ -128,11 +131,13 @@ const App = () => {
               justifyContent: 'center',
               borderRadius: 5,
               marginBottom: 5,
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: 'white',
-              }}>
+              }}
+            >
               Simple Banner Ad
             </Text>
           </TouchableOpacity>
@@ -148,11 +153,13 @@ const App = () => {
               justifyContent: 'center',
               borderRadius: 5,
               marginBottom: 5,
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: 'white',
-              }}>
+              }}
+            >
               Show Interstitial
             </Text>
           </TouchableOpacity>
@@ -168,11 +175,13 @@ const App = () => {
               justifyContent: 'center',
               borderRadius: 5,
               marginBottom: 5,
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: 'white',
-              }}>
+              }}
+            >
               Ad with Image
             </Text>
           </TouchableOpacity>
@@ -188,11 +197,13 @@ const App = () => {
               justifyContent: 'center',
               borderRadius: 5,
               marginBottom: 5,
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: 'white',
-              }}>
+              }}
+            >
               Ad with Video
             </Text>
           </TouchableOpacity>
@@ -208,11 +219,13 @@ const App = () => {
               justifyContent: 'center',
               borderRadius: 5,
               marginBottom: 5,
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: 'white',
-              }}>
+              }}
+            >
               Multiple Ads in a List
             </Text>
           </TouchableOpacity>
@@ -229,7 +242,8 @@ const App = () => {
         <View
           style={{
             height: 400,
-          }}>
+          }}
+        >
           <AdView type="image" media={true} />
         </View>
       )}
@@ -238,7 +252,8 @@ const App = () => {
         <View
           style={{
             height: 400,
-          }}>
+          }}
+        >
           <AdView type="video" media={true} />
         </View>
       )}

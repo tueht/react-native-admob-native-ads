@@ -138,7 +138,7 @@
     if ( ![self isLoading] && _totalAds-_nativeAds.count>0){
         GADMultipleAdsAdLoaderOptions* multipleAdsOptions = [[GADMultipleAdsAdLoaderOptions alloc] init];
         multipleAdsOptions.numberOfAds = MAX(_totalAds-_nativeAds.count,0);
-        adLoader = [[GADAdLoader alloc] initWithAdUnitID:_adUnitId rootViewController:_rootVC adTypes:@[kGADAdLoaderAdTypeNative] options:@[adMediaOptions,adVideoOptions,adPlacementOptions,multipleAdsOptions]];
+        adLoader = [[GADAdLoader alloc] initWithAdUnitID:_adUnitId rootViewController:_rootVC adTypes:@[GADAdLoaderAdTypeNative] options:@[adMediaOptions,adVideoOptions,adPlacementOptions,multipleAdsOptions]];
         [adLoader setDelegate:self];
         [adLoader loadRequest:adRequest];
         isInLoading = true;
