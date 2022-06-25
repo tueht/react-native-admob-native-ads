@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 
 export const defaultAd = {
-  icon:"empty",
-  images:[
-    {
-      "url":null
-    }
-  ]
-}
+	icon: 'empty',
+	images: [
+		{
+			url: null,
+		},
+	],
+};
 
 export const NativeAdContext = React.createContext({
-  nativeAd: defaultAd,
-  nativeAdView: null,
-  setNativeAdView: () => {},
-  setNativeAd: () => {},
+	nativeAd: defaultAd,
+	nativeAdView: null,
+	setNativeAdView: () => {},
+	setNativeAd: () => {},
 });
