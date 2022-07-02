@@ -1,100 +1,87 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
-import { View, StyleSheet} from 'react-native';
-import EntypoIcons from 'react-native-vector-icons/Entypo';
-import EvilIconsIcons from 'react-native-vector-icons/EvilIcons';
-import FeatherIcons from 'react-native-vector-icons/Feather';
-import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
-import FoundationIcons from 'react-native-vector-icons/Foundation';
-import IoniconsIcons from 'react-native-vector-icons/Ionicons';
-import MaterialIconsIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import OcticonsIcons from 'react-native-vector-icons/Octicons';
-import ZocialIcons from 'react-native-vector-icons/Zocial';
-import SimpleLineIconsIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-/*
-export interface StarViewProps {
-  style?: StyleProp<ViewStyle>;
-  stars: number;
-  size?: number;
-  fullIcon?: string;
-  halfIcon?: string;
-  emptyIcon?: string;
-}
-*/
+import React, {useCallback} from 'react';
+import {View, StyleSheet, Image} from 'react-native';
 
-const iconSets = {
-  Entypo: EntypoIcons,
-  EvilIcons: EvilIconsIcons,
-  Feather: FeatherIcons,
-  Fontisto:Fontisto,
-  FontAwesome: FontAwesomeIcons,
-  Foundation: FoundationIcons,
-  Ionicons: IoniconsIcons,
-  MaterialIcons: MaterialIconsIcons,
-  MaterialCommunityIcons: MaterialCommunityIcons,
-  Octicons: OcticonsIcons,
-  Zocial: ZocialIcons,
-  SimpleLineIcons: SimpleLineIconsIcons,
-};
-
+const fullStarImage = require('../assets/star-full.webp');
+const haftStarImage = require('../assets/star-haft.webp');
+const emptyStarImage = require('../assets/star-empty.webp');
 
 export default function StarView({
-  style = undefined,
-  stars,
-  size = 15,
-  iconSet = 'MaterialCommunityIcons',
-  fullIcon = 'star',
-  fullIconColor = "#ffd27d",
-  halfIcon = 'star-half',
-  halfIconColor = "#ffd27d",
-  emptyIcon = 'star-outline',
-  emptyIconColor = "#f0f0f0",
-  passRef,
-  ...passThroughProps
+	style,
+	stars,
+	size = 15,
+	fullIconColor = '#ffd27d',
+	halfIconColor = '#ffd27d',
+	emptyIconColor = '#f0f0f0',
+	passRef,
+	StarComponent,
+	...passThroughProps
 }) {
-  let Icon = MaterialCommunityIcons;
-  
-  const viewStyle = useMemo(() => [styles.row, style], [style]);
-  const renderIcons = useCallback(
+	const renderIcon = useCallback(
+		(key, variant) => {
+			let img = emptyStarImage;
+			let tintColor = emptyIconColor;
+			if (variant === 'haft') {
+				img = haftStarImage;
+				tintColor = halfIconColor;
+			} else if (variant === 'full') {
+				img = fullStarImage;
+				tintColor = fullIconColor;
+			}
 
-    (_stars, _size, icons = [], emptyStars = 5) => {
-      if (typeof stars !== 'number') return null;
-      if (typeof _size !== 'number') return null;
+			if (StarComponent && React.isValidElement(StarComponent)) {
+				return <StarComponent size={size} tintColor={tintColor} variant={variant} />;
+			}
 
-      if (_stars > 5) _stars = 5;
-      if (_stars >= 1) {
-        // 1 - 5
-        icons.push(<Icon name={fullIcon} size={_size} key={`star-full${_stars}`} color={fullIconColor} />);
-        return renderIcons(_stars - 1, _size, icons, emptyStars - 1);
-      } else if (_stars >= 0.5) {
-        // 0 - 1
-        icons.push(<Icon name={halfIcon} size={_size} key={`star-half${_stars}`} color={halfIconColor} />);
-        return renderIcons(_stars - 1, _size, icons, emptyStars - 1);
-      }
-      if (emptyStars > 0) {
-        icons.push(<Icon name={emptyIcon} size={_size} key={`star-empty${emptyStars}`} color={emptyIconColor} />);
-        return renderIcons(_stars, _size, icons, emptyStars - 1);
-      }
-      // 0
-      return icons;
-    },
-    [emptyIcon, fullIcon, halfIcon, Icon],
-  );
+			return (
+				<Image
+					key={key}
+					source={img}
+					resizeMode="contain"
+					style={{width: size, height: size, tintColor}}
+				/>
+			);
+		},
+		[StarComponent, size, emptyIconColor, halfIconColor, fullIconColor],
+	);
 
-  useEffect(() => {
-    Icon = iconSets[iconSet];
-  }, [iconSet]);
+	const renderIcons = useCallback(
+		(_stars, icons = [], emptyStars = 5) => {
+			if (typeof stars !== 'number') return null;
 
-  if (stars == null || typeof stars !== 'number') return null;
+			if (_stars > 5) {
+				_stars = 5;
+			}
+			if (_stars >= 1) {
+				// 1 - 5
+				icons.push(renderIcon(`star-full${_stars}`, 'full'));
+				return renderIcons(_stars - 1, icons, emptyStars - 1);
+			} else if (_stars >= 0.5) {
+				// 0 - 1
+				icons.push(renderIcon(`star-half${_stars}`, 'haft'));
+				return renderIcons(_stars - 1, icons, emptyStars - 1);
+			}
+			if (emptyStars > 0) {
+				icons.push(renderIcon(`star-empty${_stars}`, 'empty'));
+				return renderIcons(_stars, icons, emptyStars - 1);
+			}
+			// 0
+			return icons;
+		},
+		[renderIcon],
+	);
 
-  const icons = renderIcons(stars, size);
-  return <View ref={passRef} style={viewStyle} {...passThroughProps}>{icons}</View>;
+	if (typeof stars !== 'number' || typeof size !== 'number') return null;
+
+	return (
+		<View ref={passRef} style={[styles.row, style]} {...passThroughProps}>
+			{renderIcons(stars)}
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    marginTop: 1,
-  },
+	row: {
+		flexDirection: 'row',
+		marginTop: 1,
+	},
 });

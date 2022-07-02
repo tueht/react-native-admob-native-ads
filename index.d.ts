@@ -279,27 +279,20 @@ type NestedTextProps = {
 	allowFontScaling?: boolean;
 };
 
+export type StarIconProps = {
+	size?: number;
+	tintColor?: string;
+	variant: 'full' | 'haft' | 'empty';
+};
+
 type StarViewProps = {
 	style?: StyleProp<ViewStyle>;
 	size?: number;
-	iconSet?:
-		| 'Entypo'
-		| 'EvilIcons'
-		| 'Feather'
-		| 'FontAwesome'
-		| 'Foundation'
-		| 'Ionicons'
-		| 'MaterialIcons'
-		| 'MaterialCommunityIcons'
-		| 'Octicons'
-		| 'Zocial'
-		| 'SimpleLineIcons';
-	fullIcon?: string;
-	halfIcon?: string;
-	emptyIcon?: string;
+	stars?: number;
 	fullIconColor?: string;
 	halfIconColor?: string;
 	emptyIconColor?: string;
+	StarComponent?: React.ReactElement<StarIconProps>;
 };
 
 export type ShowAdFunction = (callback?: Function, force?: boolean) => void;
