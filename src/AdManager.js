@@ -3,6 +3,12 @@ import {AdOptions} from './utils';
 
 const RNAdmobNativeAdsManager = NativeModules.RNAdmobNativeAdsManager;
 
+const DEAFAULT_TIME_BETWEEN_ADS = 80000;
+
+let adConfigs = {
+	timeBetweenInterstitial: DEAFAULT_TIME_BETWEEN_ADS,
+};
+
 async function setRequestConfiguration(config) {
 	return RNAdmobNativeAdsManager.setRequestConfiguration(config);
 }
@@ -12,8 +18,7 @@ async function isTestDevice() {
 }
 
 function registerRepository(config) {
-	config.mediaAspectRatio =
-		AdOptions.mediaAspectRatio[config.mediaAspectRatio || 'unknown'];
+	config.mediaAspectRatio = AdOptions.mediaAspectRatio[config.mediaAspectRatio || 'unknown'];
 	config.adChoicesPlacement =
 		AdOptions.adChoicesPlacement[config.adChoicesPlacement || 'topRight'];
 	return RNAdmobNativeAdsManager.registerRepository(config);
@@ -31,6 +36,17 @@ async function resetCache() {
 	return RNAdmobNativeAdsManager.resetCache();
 }
 
+function getConfigs() {
+	return adConfigs;
+}
+
+function setConfigs(configs) {
+	adConfigs = {
+		...adConfigs,
+		...configs,
+	};
+}
+
 export default {
 	setRequestConfiguration,
 	isTestDevice,
@@ -38,4 +54,7 @@ export default {
 	hasAd,
 	unRegisterRepository,
 	resetCache,
+	getConfigs,
+	setConfigs,
+	DEAFAULT_TIME_BETWEEN_ADS,
 };
