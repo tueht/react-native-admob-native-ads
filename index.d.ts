@@ -296,6 +296,7 @@ type StarViewProps = {
 };
 
 export type ShowAdFunction = (callback?: Function, force?: boolean) => void;
+export type LoadAdFunction = () => Promise<boolean>;
 
 declare module 'react-native-admob-native-ads' {
 	/**
@@ -463,5 +464,5 @@ declare module 'react-native-admob-native-ads' {
 		adUnitId: string,
 		autoLoad?: boolean,
 		options?: AdRequestOptions,
-	): [ShowAdFunction, Function];
+	): [ShowAdFunction, LoadAdFunction];
 }
