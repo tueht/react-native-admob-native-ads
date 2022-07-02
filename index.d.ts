@@ -131,6 +131,14 @@ type MediationAdapterStatus = {
 	state: AdapterState;
 };
 
+export type AdRequestConfig = {
+	requestNonPersonalizedAdsOnly?: boolean;
+	networkExtras?: {[key: string]: any};
+	keywords?: string[];
+	contentUrl?: string;
+	requestAgent?: string;
+};
+
 type AdRepositoryConfig = {
 	/** Name for this repository. If name is not provided, adUnitId will
 	 * will be used as repository name.
@@ -293,6 +301,8 @@ type StarViewProps = {
 	halfIconColor?: string;
 	emptyIconColor?: string;
 };
+
+export type ShowAdFunction = (callback?: Function, force?: boolean) => void;
 
 declare module 'react-native-admob-native-ads' {
 	/**
@@ -459,6 +469,6 @@ declare module 'react-native-admob-native-ads' {
 		placementId: string,
 		adUnitId: string,
 		autoLoad?: boolean,
-		options?: {},
-	): [(callback?: () => void, force?: boolean) => void, () => void];
+		options?: AdRequestConfig,
+	): [ShowAdFunction, Function];
 }
