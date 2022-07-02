@@ -466,7 +466,7 @@ declare module 'react-native-admob-native-ads' {
 	export function StarRatingView(props: StarViewProps): JSX.Element;
 
 	export function useInterstitialAdLoader(
-		placementId: string | number,
+		placementId: string,
 		adUnitId: string,
 		autoLoad?: boolean,
 		options?: AdRequestOptions,

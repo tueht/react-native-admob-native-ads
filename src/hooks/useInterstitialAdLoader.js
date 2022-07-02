@@ -2,11 +2,6 @@ import {useCallback, useEffect, useRef} from 'react';
 import {NativeModules, NativeEventEmitter} from 'react-native';
 import {getConfigs, DEAFAULT_TIME_BETWEEN_ADS} from '../AdManager';
 
-export const ADS_PLACEMENT = {
-	HOME: 1,
-	DETAILS: 2,
-};
-
 let lastShownTime = null;
 
 const useInterstitialAdLoader = (placementId, adUnitId, autoLoad = true, options = {}) => {
