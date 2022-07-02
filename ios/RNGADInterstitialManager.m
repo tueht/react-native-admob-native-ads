@@ -37,11 +37,8 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)dealloc {
-    for (NSNumber *id in [_interstitialMap allKeys]) {
-        [_interstitialMap removeObjectForKey:id];
-    }
+    [_interstitialMap removeAllObjects];
 }
-
 
 + (RNGADInterstitialManager *)shared {
     static RNGADInterstitialManager *_shared;
@@ -66,11 +63,11 @@ RCT_EXPORT_MODULE();
     return @[EVENT_INTERSTITIAL];
 }
 
--(void)setAd:(GADInterstitialAd *)ad for:(NSNumber *)requestId {
+-(void)setAd:(GADInterstitialAd *)ad for:(NSString *)requestId {
     _interstitialMap[requestId] = ad;
 }
 
--(GADInterstitialAd *)adForRequestId:(NSNumber *)requestId {
+-(GADInterstitialAd *)adForRequestId:(NSString *)requestId {
     return _interstitialMap[requestId];
 }
 
@@ -83,7 +80,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)sendAdEvent:(NSString *)event
-          requestId:(NSNumber *)requestId
+          requestId:(NSString *)requestId
                type:(NSString *)type
            adUnitId:(NSString *)adUnitId
               error:(nullable NSDictionary *)error
@@ -113,7 +110,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)sendInterstitialEvent:(NSString *)type
-                    requestId:(NSNumber *)requestId
+                    requestId:(NSString *)requestId
                      adUnitId:(NSString *)adUnitId
                         error:(nullable NSDictionary *)error {
   [self sendAdEvent:EVENT_INTERSTITIAL requestId:requestId type:type adUnitId:adUnitId error:error data:nil];
@@ -166,11 +163,6 @@ RCT_EXPORT_MODULE();
         request.keywords = adRequestOptions[@"keywords"];
     }
     
-    // if (adRequestOptions[@"location"]) {
-    //     NSArray<NSNumber *> *latLong = adRequestOptions[@"location"];
-    //     [request setLocationWithLatitude:[latLong[0] doubleValue] longitude:[latLong[1] doubleValue] accuracy:[adRequestOptions[@"locationAccuracy"] doubleValue]];
-    // }
-
     if (adRequestOptions[@"contentUrl"]) {
         request.contentURL = adRequestOptions[@"contentUrl"];
     }
@@ -190,11 +182,10 @@ RCT_EXPORT_MODULE();
 #pragma mark -
 #pragma mark GADInterstitialDelegate Methods
 
-- (NSNumber*)requestIdForAd:(GADInterstitialAd*)ad {
-    for (NSNumber *id in [_interstitialMap allKeys]) {
-        if (_interstitialMap[id] == ad) {
-            return id;
-        }
+- (NSString*)requestIdForAd:(GADInterstitialAd*)ad {
+    NSArray *keys = [_interstitialMap allKeysForObject:ad];
+    if (keys.count > 0) {
+        return keys[0];
     }
     return nil;
 }
@@ -202,7 +193,7 @@ RCT_EXPORT_MODULE();
 /// Tells the delegate that an impression has been recorded for the ad.
 - (void)adDidRecordImpression:(nonnull id<GADFullScreenPresentingAd>)ad {
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
-    NSNumber *requestId = [self requestIdForAd:ad];
+    NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
         [self sendInterstitialEvent:ADMOB_EVENT_IMPRESSION requestId:requestId adUnitId:inAd.adUnitID error:nil];
     }
@@ -211,16 +202,16 @@ RCT_EXPORT_MODULE();
 /// Tells the delegate that the ad failed to present full screen content.
 - (void)ad:(nonnull id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
-    NSNumber *requestId = [self requestIdForAd:ad];
+    NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
         [self sendInterstitialEvent:ADMOB_EVENT_ERROR requestId:requestId adUnitId:inAd.adUnitID error:[RNGADInterstitialManager getCodeAndMessageFromAdError:error]];
     }
 }
 
 /// Tells the delegate that the ad presented full screen content.
-- (void)adDidPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
+-(void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad {
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
-    NSNumber *requestId = [self requestIdForAd:ad];
+    NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
         [self sendInterstitialEvent:ADMOB_EVENT_OPENED requestId:requestId adUnitId:inAd.adUnitID error:nil];
     }
@@ -229,7 +220,7 @@ RCT_EXPORT_MODULE();
 /// Tells the delegate that the ad dismissed full screen content.
 - (void)adDidDismissFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
-    NSNumber *requestId = [self requestIdForAd:ad];
+    NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
         [self sendInterstitialEvent:ADMOB_EVENT_CLOSED requestId:requestId adUnitId:inAd.adUnitID error:nil];
         [_interstitialMap removeObjectForKey:requestId];
@@ -240,7 +231,7 @@ RCT_EXPORT_MODULE();
 #pragma mark RN Firebase AdMob Methods
 
 
-RCT_EXPORT_METHOD(interstitialLoad:(nonnull NSNumber *)requestId :(NSString *)adUnitId :(NSDictionary *)adRequestOptions :(RCTPromiseResolveBlock) resolve :(RCTPromiseRejectBlock) reject) {
+RCT_EXPORT_METHOD(interstitialLoad:(nonnull NSString *)requestId :(NSString *)adUnitId :(NSDictionary *)adRequestOptions :(RCTPromiseResolveBlock) resolve :(RCTPromiseRejectBlock) reject) {
     if ([[RNGADInterstitialManager shared] adForRequestId:requestId]) {
         resolve(@1);
         return;
@@ -264,7 +255,7 @@ RCT_EXPORT_METHOD(interstitialLoad:(nonnull NSNumber *)requestId :(NSString *)ad
       }];
 }
 
-RCT_EXPORT_METHOD(interstitialShow:(nonnull NSNumber *)requestId :(NSDictionary *)showOptions :(RCTPromiseResolveBlock) resolve :(RCTPromiseRejectBlock) reject) {
+RCT_EXPORT_METHOD(interstitialShow:(nonnull NSString *)requestId :(NSDictionary *)showOptions :(RCTPromiseResolveBlock) resolve :(RCTPromiseRejectBlock) reject) {
     GADInterstitialAd *interstitial = [[RNGADInterstitialManager shared] adForRequestId:requestId];
     if (interstitial) {
         UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
