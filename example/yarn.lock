@@ -5456,7 +5456,7 @@ react-is@^18.0.0:
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
 "react-native-admob-native-ads@file:..":
-  version "0.6.1"
+  version "0.6.4"
 
 react-native-codegen@^0.69.1:
   version "0.69.1"

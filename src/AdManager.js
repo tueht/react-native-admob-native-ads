@@ -36,16 +36,16 @@ async function resetCache() {
 	return RNAdmobNativeAdsManager.resetCache();
 }
 
-function getConfigs() {
+const getConfigs = () => {
 	return adConfigs;
-}
+};
 
-function setConfigs(configs) {
+const setConfigs = configs => {
 	adConfigs = {
 		...adConfigs,
 		...configs,
 	};
-}
+};
 
 export default {
 	setRequestConfiguration,

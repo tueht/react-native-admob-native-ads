@@ -1,12 +1,12 @@
 import {useCallback, useEffect, useRef} from 'react';
 import {NativeModules, NativeEventEmitter} from 'react-native';
-import {getConfigs, DEAFAULT_TIME_BETWEEN_ADS} from '../AdManager';
+import AdManager from '../AdManager';
 
 let lastShownTime = null;
 
 const useInterstitialAdLoader = (placementId, adUnitId, autoLoad = true, options = {}) => {
 	const callbackRef = useRef();
-	const {timeBetweenInterstitial = DEAFAULT_TIME_BETWEEN_ADS} = getConfigs();
+	const {timeBetweenInterstitial = AdManager.DEAFAULT_TIME_BETWEEN_ADS} = AdManager.getConfigs();
 
 	const loadAd = useCallback(() => {
 		return NativeModules.RNGADInterstitialManager.interstitialLoad(
