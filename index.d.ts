@@ -131,7 +131,7 @@ type MediationAdapterStatus = {
 	state: AdapterState;
 };
 
-export type AdRequestConfig = {
+export type AdRequestOptions = {
 	requestNonPersonalizedAdsOnly?: boolean;
 	networkExtras?: {[key: string]: any};
 	keywords?: string[];
@@ -469,6 +469,6 @@ declare module 'react-native-admob-native-ads' {
 		placementId: string,
 		adUnitId: string,
 		autoLoad?: boolean,
-		options?: AdRequestConfig,
+		options?: AdRequestOptions,
 	): [ShowAdFunction, Function];
 }
