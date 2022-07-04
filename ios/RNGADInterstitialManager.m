@@ -9,24 +9,39 @@
 #import "RNGADInterstitialManager.h"
 
 NSString *const EVENT_INTERSTITIAL = @"admob_interstitial_event";
-NSString *const EVENT_REWARDED = @"admob_rewarded_event";
-NSString *const ADMOB_EVENT_LOADED = @"loaded";
-NSString *const ADMOB_EVENT_ERROR = @"error";
-NSString *const ADMOB_EVENT_OPENED = @"opened";
-NSString *const ADMOB_EVENT_CLICKED = @"clicked";
-NSString *const ADMOB_EVENT_IMPRESSION = @"impression";
-NSString *const ADMOB_EVENT_LEFT_APPLICATION = @"left_application";
-NSString *const ADMOB_EVENT_CLOSED = @"closed";
+NSString *const EVENT_TYPE_LOADED = @"loaded";
+NSString *const EVENT_TYPE_ERROR = @"error";
+NSString *const EVENT_TYPE_OPENED = @"opened";
+NSString *const EVENT_TYPE_CLICKED = @"clicked";
+NSString *const EVENT_TYPE_IMPRESSION = @"impression";
+NSString *const EVENT_TYPE_APPLICATION = @"left_application";
+NSString *const EVENT_TYPE_CLOSED = @"closed";
 
-NSString *const RNGADErrorDomain = @"RNGADErrorDomain";
+NSString *const AD_ERROR_DOMAIN = @"RNGADErrorDomain";
 
 @implementation RNGADInterstitialManager {
     bool hasListeners;
 }
+
 #pragma mark -
 #pragma mark Module Setup
 
 RCT_EXPORT_MODULE();
+
+- (NSDictionary *)constantsToExport
+{
+    return @{
+        @"EVENT_INTERSTITIAL": EVENT_INTERSTITIAL,
+        @"EVENT_TYPE_LOADED": EVENT_TYPE_LOADED,
+        @"EVENT_TYPE_ERROR": EVENT_TYPE_ERROR,
+        @"EVENT_TYPE_OPENED": EVENT_TYPE_OPENED,
+        @"EVENT_TYPE_CLICKED": EVENT_TYPE_CLICKED,
+        @"EVENT_TYPE_IMPRESSION": EVENT_TYPE_IMPRESSION,
+        @"EVENT_TYPE_APPLICATION": EVENT_TYPE_APPLICATION,
+        @"EVENT_TYPE_CLOSED": EVENT_TYPE_CLOSED,
+        @"AD_ERROR_DOMAIN": AD_ERROR_DOMAIN
+    };
+}
 
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
@@ -38,17 +53,6 @@ RCT_EXPORT_MODULE();
 
 - (void)dealloc {
     [_interstitialMap removeAllObjects];
-}
-
-+ (RNGADInterstitialManager *)shared {
-    static RNGADInterstitialManager *_shared;
-    static dispatch_once_t oncePredicate;
-
-    dispatch_once(&oncePredicate, ^{
-        _shared = [[RNGADInterstitialManager alloc] init];
-    });
-
-    return _shared;
 }
 
 - (id)init {
@@ -72,9 +76,10 @@ RCT_EXPORT_MODULE();
 }
 
 -(void)startObserving {
-    hasListeners = YES;
+    hasListeners = TRUE;
 }
 
+// Will be called when this module's last listener is removed, or on dealloc.
 -(void)stopObserving {
     hasListeners = NO;
 }
@@ -86,7 +91,7 @@ RCT_EXPORT_MODULE();
               error:(nullable NSDictionary *)error
                data:(nullable NSDictionary *)data {
     NSMutableDictionary *body = [@{
-            @"type": type,
+        @"type": type,
     } mutableCopy];
 
     if (error != nil) {
@@ -135,8 +140,8 @@ RCT_EXPORT_MODULE();
     }
 
     return @{
-            @"code": code,
-            @"message": message,
+        @"code": code,
+        @"message": message,
     };
 }
 
@@ -162,7 +167,7 @@ RCT_EXPORT_MODULE();
     if (adRequestOptions[@"keywords"]) {
         request.keywords = adRequestOptions[@"keywords"];
     }
-    
+
     if (adRequestOptions[@"contentUrl"]) {
         request.contentURL = adRequestOptions[@"contentUrl"];
     }
@@ -175,7 +180,7 @@ RCT_EXPORT_MODULE();
 }
 
 + (void)rejectPromiseWithUserInfo:(RCTPromiseRejectBlock)reject userInfo:(NSMutableDictionary *)userInfo {
-    NSError *error = [NSError errorWithDomain:RNGADErrorDomain code:666 userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:AD_ERROR_DOMAIN code:666 userInfo:userInfo];
     reject(userInfo[@"code"], userInfo[@"message"], error);
 }
 
@@ -195,7 +200,7 @@ RCT_EXPORT_MODULE();
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
     NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
-        [self sendInterstitialEvent:ADMOB_EVENT_IMPRESSION requestId:requestId adUnitId:inAd.adUnitID error:nil];
+        [self sendInterstitialEvent:EVENT_TYPE_IMPRESSION requestId:requestId adUnitId:inAd.adUnitID error:nil];
     }
 }
 
@@ -204,7 +209,7 @@ RCT_EXPORT_MODULE();
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
     NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
-        [self sendInterstitialEvent:ADMOB_EVENT_ERROR requestId:requestId adUnitId:inAd.adUnitID error:[RNGADInterstitialManager getCodeAndMessageFromAdError:error]];
+        [self sendInterstitialEvent:EVENT_TYPE_ERROR requestId:requestId adUnitId:inAd.adUnitID error:[RNGADInterstitialManager getCodeAndMessageFromAdError:error]];
     }
 }
 
@@ -213,7 +218,7 @@ RCT_EXPORT_MODULE();
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
     NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
-        [self sendInterstitialEvent:ADMOB_EVENT_OPENED requestId:requestId adUnitId:inAd.adUnitID error:nil];
+        [self sendInterstitialEvent:EVENT_TYPE_OPENED requestId:requestId adUnitId:inAd.adUnitID error:nil];
     }
 }
 
@@ -222,7 +227,7 @@ RCT_EXPORT_MODULE();
     GADInterstitialAd *inAd = (GADInterstitialAd *)ad;
     NSString *requestId = [self requestIdForAd:ad];
     if (requestId) {
-        [self sendInterstitialEvent:ADMOB_EVENT_CLOSED requestId:requestId adUnitId:inAd.adUnitID error:nil];
+        [self sendInterstitialEvent:EVENT_TYPE_CLOSED requestId:requestId adUnitId:inAd.adUnitID error:nil];
         [_interstitialMap removeObjectForKey:requestId];
     }
 }
@@ -232,7 +237,7 @@ RCT_EXPORT_MODULE();
 
 
 RCT_EXPORT_METHOD(interstitialLoad:(nonnull NSString *)requestId :(NSString *)adUnitId :(NSDictionary *)adRequestOptions :(RCTPromiseResolveBlock) resolve :(RCTPromiseRejectBlock) reject) {
-    if ([[RNGADInterstitialManager shared] adForRequestId:requestId]) {
+    if ([self adForRequestId:requestId]) {
         resolve(@1);
         return;
     }
@@ -248,15 +253,14 @@ RCT_EXPORT_METHOD(interstitialLoad:(nonnull NSString *)requestId :(NSString *)ad
             reject(meta[@"code"], meta[@"message"], nil);
             return;
         }
-        NSLog(@"loaded");
-        [[RNGADInterstitialManager shared] setAd:ad for:requestId];
-        ad.fullScreenContentDelegate = [RNGADInterstitialManager shared];
+        [self setAd:ad for:requestId];
+        ad.fullScreenContentDelegate = self;
         resolve(@1);
       }];
 }
 
 RCT_EXPORT_METHOD(interstitialShow:(nonnull NSString *)requestId :(NSDictionary *)showOptions :(RCTPromiseResolveBlock) resolve :(RCTPromiseRejectBlock) reject) {
-    GADInterstitialAd *interstitial = [[RNGADInterstitialManager shared] adForRequestId:requestId];
+    GADInterstitialAd *interstitial = [self adForRequestId:requestId];
     if (interstitial) {
         UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
         [interstitial presentFromRootViewController:rootViewController];
