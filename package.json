@@ -24,7 +24,7 @@
     "ios/**/*.swift",
     "index.js",
     "index.d.ts",
-    "src/*.js",
+    "src/**/*.js",
     "react-native-admob-native-ads.podspec"
   ],
   "keywords": [
