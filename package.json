@@ -25,7 +25,8 @@
     "index.js",
     "index.d.ts",
     "src/**/*.js",
-    "react-native-admob-native-ads.podspec"
+    "react-native-admob-native-ads.podspec",
+    "assets/"
   ],
   "keywords": [
     "android",
