@@ -30,7 +30,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 public class RNGADInterstitialManager extends ReactContextBaseJavaModule {
     public final static HashMap<String, InterstitialAd> mInterstitialMap = new HashMap<>();
-    public static Integer showingRequestId;
+    public static String showingRequestId;
 
     private void sendEvent(ReactContext reactContext,
                            String eventName,
