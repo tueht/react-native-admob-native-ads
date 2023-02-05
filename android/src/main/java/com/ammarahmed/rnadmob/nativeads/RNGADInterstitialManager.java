@@ -48,13 +48,13 @@ public class RNGADInterstitialManager extends ReactContextBaseJavaModule {
     public void removeListeners(Integer count) {
     }
 
-    private void sendAdEvent(String evenName, Integer requestId, String adUnitId, @Nullable WritableMap error, @Nullable WritableMap data) {
+    private void sendAdEvent(String evenName, String requestId, String adUnitId, @Nullable WritableMap error, @Nullable WritableMap data) {
         ReactContext context = getReactApplicationContext();
         WritableMap params = Arguments.createMap();
         WritableMap body = Arguments.createMap();
         body.putString("type", evenName);
         params.putString("eventName", evenName);
-        params.putInt("requestId", requestId);
+        params.putString("requestId", requestId);
         params.putString("adUnitId", adUnitId);
         if (error != null) {
             params.putMap("error", error);
@@ -139,7 +139,7 @@ public class RNGADInterstitialManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void interstitialLoad(Integer requestId, String adUnitId, ReadableMap adRequestOptions, Promise promise) {
+    public void interstitialLoad(String requestId, String adUnitId, ReadableMap adRequestOptions, Promise promise) {
         AdRequest adRequest = new AdRequest.Builder().build();
         final Activity activity = getCurrentActivity();
         if (activity != null) {
@@ -168,7 +168,7 @@ public class RNGADInterstitialManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void interstitialShow(Integer requestId,  ReadableMap showOptions, Promise promise) {
+    public void interstitialShow(String requestId,  ReadableMap showOptions, Promise promise) {
         InterstitialAd interstitialAd = mInterstitialMap.get(requestId.toString());
         final Activity activity = getCurrentActivity();
         if (activity != null && interstitialAd != null) {
