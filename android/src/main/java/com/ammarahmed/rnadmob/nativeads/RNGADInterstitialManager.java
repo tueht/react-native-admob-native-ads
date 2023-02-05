@@ -40,6 +40,14 @@ public class RNGADInterstitialManager extends ReactContextBaseJavaModule {
                 .emit(eventName, params);
     }
 
+    @ReactMethod
+    public void addListener(String eventName) {
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+    }
+
     private void sendAdEvent(String evenName, Integer requestId, String adUnitId, @Nullable WritableMap error, @Nullable WritableMap data) {
         ReactContext context = getReactApplicationContext();
         WritableMap params = Arguments.createMap();

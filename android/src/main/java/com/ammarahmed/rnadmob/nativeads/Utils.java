@@ -7,8 +7,8 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
 import com.google.ads.mediation.admob.AdMobAdapter;
-import com.google.ads.mediation.facebook.FacebookAdapter;
-import com.google.ads.mediation.facebook.FacebookExtras;
+// import com.google.ads.mediation.facebook.FacebookAdapter;
+// import com.google.ads.mediation.facebook.FacebookExtras;
 import com.google.android.gms.ads.VideoOptions;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
 import com.google.android.gms.ads.nativead.NativeAdOptions;
@@ -86,8 +86,8 @@ public class Utils {
     public static void setMediationOptions(ReadableMap options, AdManagerAdRequest.Builder adRequest) {
         if (options == null) return;
         if (options.hasKey("nativeBanner")) {
-            Bundle facebookExtras = new FacebookExtras().setNativeBanner(options.getBoolean("nativeBanner")).build();
-            adRequest.addNetworkExtrasBundle(FacebookAdapter.class, facebookExtras);
+//             Bundle facebookExtras = new FacebookExtras().setNativeBanner(options.getBoolean("nativeBanner")).build();
+//             adRequest.addNetworkExtrasBundle(FacebookAdapter.class, facebookExtras);
         }
     }
 

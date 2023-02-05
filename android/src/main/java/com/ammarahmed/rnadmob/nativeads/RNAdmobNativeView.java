@@ -260,7 +260,7 @@ public class RNAdmobNativeView extends LinearLayout {
                 args.putString("icon", "noicon");
             }
 
-            sendDirectMessage(args);
+			sendEvent(RNAdmobNativeViewManager.EVENT_NATIVE_AD_LOADED, args);
 
         } catch (Exception e) {
         }
