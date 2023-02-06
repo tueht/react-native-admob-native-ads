@@ -85,6 +85,7 @@ public class RNAdmobNativeView extends LinearLayout {
                 };
                 handler.postDelayed(retryRunnable, adRefreshInterval);
             }
+            sendEvent(RNAdmobNativeViewManager.EVENT_NATIVE_AD_LOADED, event);
         }
 
         @Override
